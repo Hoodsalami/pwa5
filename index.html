@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التعرّف على الأجهزة بالذكاء الاصطناعي — نسخة Netlify</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--mint:#3ad6b5;--ink:#0a1024;--bg1:#f7f9fc;--bg2:#eaf3ff;}
+    *{box-sizing:border-box}
+    body{font-family:'Tajawal',sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--ink);margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+    h1{margin-top:50px;font-size:1.6rem;color:var(--ink);text-align:center}
+    .camera-container{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:1rem;background:#fff;border-radius:16px;box-shadow:0 0 10px rgba(0,0,0,.1);padding:1rem;width:min(90%,760px)}
+    video,img{width:100%;border-radius:10px;border:1px solid var(--mint);background:#e0f7f5}
+    .btn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem}
+    button{background:var(--mint);border:none;color:#fff;font-size:1rem;padding:.5rem 1rem;border-radius:8px;cursor:pointer}
+    button:disabled{background:#b0e8dc;cursor:not-allowed}
+    #aiStatus{color:#333;font-size:.95rem;margin-top:.5rem;text-align:center;white-space:pre-line}
+    .ai-float{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:120;background:rgba(0,0,0,.45);backdrop-filter:blur(6px)}
+    .ai-float .card{background:rgba(255,255,255,.95);border:2px solid var(--mint);border-radius:16px;padding:1rem;width:min(90%,420px);text-align:center;color:var(--ink)}
+    footer{margin-top:auto;padding:1rem;font-size:.9rem;color:#333}
+  </style>
+</head>
+<body>
+  <h1>التعرّف على الأجهزة بالذكاء الاصطناعي</h1>
+  <div class="camera-container">
+    <div class="btn-row">
+      <button id="aiStart"><i class="fa-solid fa-video"></i> تشغيل الكاميرا</button>
+      <button id="aiCapture" disabled><i class="fa-solid fa-camera"></i> التقط صورة</button>
+      <button id="aiStop" disabled><i class="fa-solid fa-square"></i> إيقاف</button>
+    </div>
+    <video id="aiVideo" autoplay playsinline muted></video>
+    <img id="aiPreview" alt="معاينة الجهاز" style="display:none">
+    <p id="aiStatus">لم يتم تشغيل الكاميرا بعد.</p>
+    <canvas id="aiCanvas" style="display:none"></canvas>
+  </div>
+  <div class="ai-float" id="aiFloat">
+    <div class="card">
+      <h3>🧠 تم التعرّف على الجهاز</h3>
+      <img id="aiFloatImg" alt="صورة الجهاز" style="width:100%;border-radius:12px;border:1px solid var(--mint);object-fit:cover;">
+      <p><strong>الاسم:</strong> <span id="aiFloatTitle">—</span></p>
+      <p><strong>الفئة:</strong> <span id="aiFloatCat">—</span></p>
+      <p><strong>القدرة المقترحة:</strong> <span id="aiFloatWatt">—</span> واط</p>
+      <p><strong>الثقة:</strong> <span id="aiFloatConf">—</span></p>
+      <button id="aiApply"><i class="fa-solid fa-bolt"></i> تطبيق القيم</button>
+    </div>
+  </div>
+  <footer>⚙️ يعمل هذا المشروع محليًا على الجهاز ويستخدم MobileNet (TensorFlow.js)</footer>
+  <script>
+    let mobilenetModel=null;const aiStart=document.getElementById('aiStart');const aiCapture=document.getElementById('aiCapture');const aiStop=document.getElementById('aiStop');const aiVideo=document.getElementById('aiVideo');const aiCanvas=document.getElementById('aiCanvas');const aiPreview=document.getElementById('aiPreview');const aiStatus=document.getElementById('aiStatus');const aiFloat=document.getElementById('aiFloat');const aiFloatImg=document.getElementById('aiFloatImg');const aiFloatTitle=document.getElementById('aiFloatTitle');const aiFloatCat=document.getElementById('aiFloatCat');const aiFloatWatt=document.getElementById('aiFloatWatt');const aiFloatConf=document.getElementById('aiFloatConf');const aiApply=document.getElementById('aiApply');let aiStream=null;
+    const labelToCategoryMap={'tv':'تلفاز','monitor':'تلفاز','screen':'تلفاز','laptop':'حاسوب محمول','computer':'حاسوب مكتبي','phone':'هاتف','air':'مكيّف هواء','conditioner':'مكيّف هواء','refrigerator':'ثلاجة','fridge':'ثلاجة','microwave':'ميكروويف','oven':'فرن كهربائي','heater':'سخان كهربائي','iron':'مكواة','kettle':'غلاية ماء','printer':'طابعة','fan':'مروحة','router':'موزّع إنترنت'};
+    const defaultWatts={'مكيّف هواء':1500,'ثلاجة':120,'فرن كهربائي':1800,'ميكروويف':1200,'تلفاز':100,'حاسوب محمول':60,'حاسوب مكتبي':200,'هاتف':5,'مروحة':45,'غلاية ماء':2000,'مكواة':1400,'طابعة':60,'سخان كهربائي':1500,'موزّع إنترنت':12};
+    function statusMsg(m){aiStatus.textContent=m;}
+    async function loadModel(){if(typeof mobilenet==='undefined'){await import('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs');await import('https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet');}mobilenetModel=await mobilenet.load();statusMsg('✅ النموذج جاهز');}
+    async function startCamera(){try{await loadModel();aiStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});aiVideo.srcObject=aiStream;aiCapture.disabled=false;aiStop.disabled=false;statusMsg('🎥 الكاميرا تعمل');}catch(e){statusMsg('تعذّر تشغيل الكاميرا: '+e.message);}}
+    function stopCamera(){if(aiStream){aiStream.getTracks().forEach(t=>t.stop());aiStream=null;aiVideo.srcObject=null;}aiCapture.disabled=true;aiStop.disabled=true;statusMsg('⏹️ تم إيقاف الكاميرا');}
+    async function capture(){if(!mobilenetModel){await loadModel();}const w=aiVideo.videoWidth,h=aiVideo.videoHeight;if(!w||!h){statusMsg('انتظر قليلًا ثم حاول.');return;}aiCanvas.width=w;aiCanvas.height=h;const ctx=aiCanvas.getContext('2d');ctx.drawImage(aiVideo,0,0,w,h);const dataUrl=aiCanvas.toDataURL('image/png');aiPreview.src=dataUrl;aiPreview.style.display='block';statusMsg('📊 جاري التحليل...');const img=new Image();img.src=dataUrl;await new Promise(r=>img.onload=r);const preds=await mobilenetModel.classify(img);let label='غير واضح',cat='غير معروف',watts=null,conf=null;if(preds&&preds[0]){label=(preds[0].className||'').toLowerCase();conf=preds[0].probability;for(const k in labelToCategoryMap){if(label.includes(k)){cat=labelToCategoryMap[k];break;}}watts=defaultWatts[cat]||null;}aiFloatImg.src=dataUrl;aiFloatTitle.textContent=label;aiFloatCat.textContent=cat;aiFloatWatt.textContent=watts?watts:'—';aiFloatConf.textContent=conf?Math.round(conf*100)+'%':'—';aiFloat.style.display='flex';aiApply.onclick=()=>{localStorage.setItem('ai_last_detection',JSON.stringify({label,category:cat,watts,confidence:conf}));aiFloat.style.display='none';statusMsg('✅ تم حفظ البيانات');};}
+    aiStart.onclick=startCamera;aiStop.onclick=stopCamera;aiCapture.onclick=capture;
+  </script>
+</body>
+</html>
