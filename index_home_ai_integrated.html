@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>الخطوة الأولى للاستدامة — وفّر طاقة (AI Plus)</title>
+<meta content="نسخة تكنولوجية مستقبلية تفاعلية: ترشيد استهلاك الطاقة مع أيقونات وحركات ونقاط وشهادة بطل الترشيد." name="description"/>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Icons & Animations -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<!-- Lottie -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<!-- Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<style>
+    :root{
+      --bg:#0a1024;         /* خلفية غامقة مستقبلية */
+      --bg-grad: radial-gradient(1200px 600px at 80% -10%, rgba(32,94,189,0.25), transparent 60%),
+                 radial-gradient(1000px 500px at -10% 90%, rgba(32,189,149,0.2), transparent 60%);
+      --card:rgba(255,255,255,0.06);
+      --glass:rgba(255,255,255,0.08);
+      --text:#d7e5ff;
+      --muted:#9bb0d1;
+      --accent:#3ad6b5;     /* أخضر نيوني */
+      --info:#4da3ff;       /* أزرق نيوني */
+      --warning:#ffcd4d;
+      --danger:#ff6b6b;
+      --radius:16px;
+      --shadow:0 12px 28px rgba(0,0,0,0.35);
+      --max-width:1100px;
+      --glow: 0 0 24px rgba(61, 214, 181, 0.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Tajawal',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      color:var(--text);
+      background:var(--bg);
+      background-image: var(--bg-grad);
+      letter-spacing:.2px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding-bottom:6rem;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max-width);margin:0 auto;padding:1rem}
+    header{
+      position:sticky;top:0;z-index:50;
+      background:linear-gradient(180deg, rgba(8,12,28,0.85), rgba(8,12,28,0.55));
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+    .nav{display:flex;align-items:center;gap:1rem;padding:.6rem 0}
+    .brand{display:flex;align-items:center;gap:.7rem}
+    .logo{
+      background:linear-gradient(135deg,var(--accent),var(--info));
+      color:#081220;padding:.5rem .8rem;border-radius:12px;font-weight:900;box-shadow:var(--glow)
+    }
+    nav ul{display:flex;gap:.6rem;list-style:none;margin:0;padding:0}
+    nav a{padding:.5rem .7rem;border-radius:10px;font-weight:700;opacity:.9}
+    nav a[aria-current="true"]{background:rgba(77,163,255,0.12);color:#e6f1ff;box-shadow:0 0 0 1px rgba(77,163,255,0.25) inset}
+    .spacer{flex:1}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .7rem;border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),var(--info));color:#07101f;font-weight:900;font-size:.95rem;box-shadow:var(--glow)}
+
+    .hero{padding:2rem 0;display:grid;grid-template-columns:1fr 380px;gap:1rem;align-items:center}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:1.1rem}
+    .hero-card h1{margin:0 0 .5rem;font-size:2rem}
+    .hero-card p{margin:0 0 1rem;color:var(--muted);font-size:1.05rem}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1rem;border-radius:12px;border:0;
+      cursor:pointer;font-weight:900;letter-spacing:.3px;transition:.2s ease}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--info));color:#07101f;box-shadow:var(--glow)}
+    .btn-primary:hover{transform:translateY(-1px) scale(1.02)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--text)}
+    .btn-ghost:hover{background:rgba(255,255,255,0.04)}
+
+    .stats{display:grid;gap:1rem;grid-template-columns:repeat(3,1fr);margin-top:1rem}
+    .stat-value{font-size:1.35rem;font-weight:900;color:#e8f4ff}
+    .stat-label{color:var(--muted);font-size:.95rem}
+    .pill{display:inline-flex;gap:.4rem;align-items:center;padding:.25rem .5rem;border-radius:999px;
+      background:rgba(58,214,181,0.12);border:1px solid rgba(58,214,181,0.3);font-weight:700;color:#bff7ec}
+    .section-title{display:flex;align-items:center;gap:.6rem;margin:1rem 0 .6rem;font-size:1.4rem}
+
+    .tips-grid{display:grid;gap:1rem;grid-template-columns:repeat(3,1fr)}
+    .tip{display:flex;gap:.9rem;align-items:flex-start}
+    .tip i{font-size:28px;color:var(--accent);filter:drop-shadow(0 0 8px rgba(58,214,181,0.4))}
+    .accordion{margin-top:.5rem}
+    .accordion button{width:100%;background:transparent;border:1px solid rgba(255,255,255,0.08);
+      padding:.6rem .6rem;border-radius:10px;text-align:right;display:flex;justify-content:space-between;align-items:center;color:#eaf4ff}
+
+    .calculator .calc-grid{display:grid;gap:.7rem;grid-template-columns:repeat(2,1fr)}
+    label{font-weight:900;color:#dbe9ff}
+    input[type="number"], input[type="text"], select{
+      padding:.65rem .7rem;border-radius:10px;border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);color:#eaf4ff
+    }
+    .result{padding:1rem;border-radius:12px;background:linear-gradient(180deg,rgba(77,163,255,0.08),rgba(58,214,181,0.08));
+      border:1px solid rgba(255,255,255,0.08)}
+
+    .progress-wrap{height:12px;background:rgba(77,163,255,0.15);border-radius:999px;overflow:hidden}
+    .progress{height:12px;border-radius:999px;width:0;background:linear-gradient(90deg,var(--accent),var(--info))}
+
+    .quiz .question{background:rgba(255,255,255,0.05);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.08)}
+
+    .pledge{display:flex;gap:1rem;align-items:center;margin-top:1rem}
+    footer{margin-top:2rem;padding:1.2rem 0;color:var(--muted)}
+
+    .topbar{
+      position:fixed;left:0;right:0;bottom:0;z-index:60;
+      background:linear-gradient(90deg,rgba(58,214,181,0.15),rgba(77,163,255,0.15));
+      border-top:1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(6px);
+    }
+    .topbar .wrap{max-width:var(--max-width);margin:0 auto;padding:.6rem 1rem;
+      display:flex;align-items:center;justify-content:space-between;gap:1rem;color:#dff7ff}
+    .score{display:flex;align-items:center;gap:.5rem;font-weight:900}
+    .meter{flex:1;height:10px;border-radius:999px;background:rgba(255,255,255,0.12);overflow:hidden}
+    .meter > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--info))}
+
+    .modal{
+      position:fixed;inset:0;background:rgba(0,0,0,0.65);
+      display:none;align-items:center;justify-content:center;z-index:80
+    }
+    .modal .sheet{
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.12));
+      border:1px solid rgba(255,255,255,0.18);border-radius:20px;box-shadow:var(--shadow);
+      width:min(680px,92vw);padding:1.2rem;text-align:center
+    }
+    .certificate{
+      background:white;color:#123;border-radius:14px;padding:1.2rem; text-align:center
+    }
+    .certificate h3{margin:.4rem 0 0 0}
+    .certificate small{color:#345}
+    .print-hint{color:#c8d7ff;margin-top:.6rem}
+
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .tips-grid{grid-template-columns:1fr}
+      .calculator .calc-grid{grid-template-columns:1fr}
+    }
+    :focus{outline:3px solid rgba(77,163,255,0.28);outline-offset:3px}
+  </style>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.18.0/dist/tf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0"></script><link href="manifest.json" rel="manifest"/><meta content="#3ad6b5" name="theme-color"/></head>
+<body>
+<header>
+<div aria-label="التنقل الرئيسي" class="container nav" role="navigation">
+<div class="brand">
+<div aria-hidden="true" class="logo"><i class="fa-solid fa-bolt"></i> وفِّر طاقة</div>
+<div class="pill"><i class="fa-solid fa-trophy"></i> النسخة التفاعلية — الخطوة الأولى للاستدامة</div>
+</div>
+<nav aria-label="قائمة الموقع">
+<ul id="mainNav">
+<li><a aria-current="true" href="#home"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
+<li><a href="#tips"><i class="fa-solid fa-lightbulb"></i> نصائح</a></li>
+<li><a href="#calc"><i class="fa-solid fa-calculator"></i> الحاسبة</a></li>
+<li><a href="#quiz"><i class="fa-solid fa-question"></i> الاختبار</a></li>
+<li><a href="#pledge"><i class="fa-solid fa-handshake-angle"></i> التعهد</a></li>
+</ul>
+</nav>
+<div class="spacer"></div>
+<div aria-live="polite" id="badgeContainer"></div>
+</div>
+</header>
+<main class="container" id="home">
+<section class="hero">
+<div class="card hero-card animate__animated animate__fadeInUp" role="region">
+<h1><i class="fa-solid fa-microchip"></i> وفِّر الكهرباء… تحمي ميزانيتك وبيئتك</h1>
+<p>اكتشف استهلاكك بدقة، اجمع النقاط، وافتح شهادة <strong>بطل الترشيد</strong> بعد إنجاز المهام!</p>
+<div style="display:flex;gap:.6rem;flex-wrap:wrap">
+<button class="btn btn-primary" id="toCalc"><i class="fa-solid fa-gauge-high"></i> ابدأ بالحاسبة</button>
+  <button class="btn" id="toAICam"><i class="fa-solid fa-camera"></i> الكاميرا الذكية داخل الصفحة</button>
+<a class="btn btn-ghost" href="#tips"><i class="fa-solid fa-list-check"></i> شاهد النصائح</a>
+</div>
+</div>
+<aside class="card animate__animated animate__fadeInUp animate__delay-1s">
+<div class="section-title"><i class="fa-solid fa-signal"></i> إحصاءات سريعة</div>
+<div aria-hidden="true" class="stats">
+<div class="card"><div class="stat-value" id="avgConsumption">3,500</div><div class="stat-label">متوسط الاستهلاك (kWh/شهر)</div></div>
+<div class="card"><div class="stat-value">20%</div><div class="stat-label">توفير متوقّع بتطبيق النصائح</div></div>
+<div class="card"><div class="stat-value">0.4 طن</div><div class="stat-label">انبعاثات محفوظة شهريًا</div></div>
+</div>
+<div style="margin-top:.6rem">
+<lottie-player autoplay="" background="transparent" loop="" speed="1" src="https://assets4.lottiefiles.com/packages/lf20_2omr5gpu.json" style="width:100%;height:160px"></lottie-player>
+</div>
+</aside>
+</section>
+<!-- نصائح -->
+<section aria-labelledby="tipsTitle" class="tips" id="tips">
+<div class="section-title" data-aos="fade-up" id="tipsTitle"><i class="fa-solid fa-lightbulb"></i> نصائح سريعة لترشيد الطاقة</div>
+<div class="tips-grid" id="tipsGrid">
+<article class="card tip" data-aos="fade-up">
+<i class="fa-solid fa-lightbulb"></i>
+<div>
+<h4>استبدل المصابيح بـ LED</h4>
+<div class="accordion">
+<button aria-expanded="false">لماذا؟ <span aria-hidden="true">+</span></button>
+<div class="content" hidden="">مصابيح LED تستهلك طاقة أقل بكثير وعمرها أطول—الاستبدال قد يوفر حتى 75%.</div>
+</div>
+</div>
+</article>
+<article class="card tip" data-aos="fade-up" data-aos-delay="50">
+<i class="fa-solid fa-temperature-half"></i>
+<div>
+<h4>اضبط المكيّف بين 24–26°</h4>
+<div class="accordion">
+<button aria-expanded="false">نصيحة سريعة <span aria-hidden="true">+</span></button>
+<div class="content" hidden="">رفع درجة التبريد بمقدار 1° يقلل استهلاك التكييف بنحو 6–8%، ونظافة الفلاتر تزيد الكفاءة.</div>
+</div>
+</div>
+</article>
+<article class="card tip" data-aos="fade-up" data-aos-delay="100">
+<i class="fa-solid fa-plug-circle-xmark"></i>
+<div>
+<h4>افصل الشواحن عند عدم الاستخدام</h4>
+<div class="accordion">
+<button aria-expanded="false">لماذا؟ <span aria-hidden="true">+</span></button>
+<div class="content" hidden="">الاستهلاك الخفي مستمر طالما القابس في الكهرباء—افصل أو استخدم مقابس بمفتاح.</div>
+</div>
+</div>
+</article>
+<article class="card tip" data-aos="fade-up" data-aos-delay="150">
+<i class="fa-solid fa-shirt"></i>
+<div>
+<h4>شغّل الغسالة بحمولة كاملة</h4>
+<div class="accordion">
+<button aria-expanded="false">تفاصيل <span aria-hidden="true">+</span></button>
+<div class="content" hidden="">تحميل كامل يقلل عدد الدورات ويحد من استهلاك الماء والكهرباء على المدى الطويل.</div>
+</div>
+</div>
+</article>
+<article class="card tip" data-aos="fade-up" data-aos-delay="200">
+<i class="fa-solid fa-fan"></i>
+<div>
+<h4>نظّف فلاتر المكيّف</h4>
+<div class="accordion">
+<button aria-expanded="false">لماذا؟ <span aria-hidden="true">+</span></button>
+<div class="content" hidden="">الغبار يعيق الكفاءة ويرفع الاستهلاك—تنظيف كل 1–2 شهر ينعكس توفيرًا ملحوظًا.</div>
+</div>
+</div>
+</article>
+<article class="card tip" data-aos="fade-up" data-aos-delay="250">
+<i class="fa-solid fa-timer"></i>
+<div>
+<h4>استخدم المؤقّت/المبرمج</h4>
+<div class="accordion">
+<button aria-expanded="false">كيف؟ <span aria-hidden="true">+</span></button>
+<div class="content" hidden="">اضبط السخان أو المكيّف ليعمل فقط عند الحاجة—خاصة في ساعات الذروة.</div>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- الحاسبة -->
+<section aria-labelledby="calcTitle" class="calculator" id="calc" style="margin-top:1rem">
+<div class="section-title" data-aos="fade-up" id="calcTitle"><i class="fa-solid fa-calculator"></i> حاسبة استهلاك الطاقة</div>
+<form aria-describedby="calcHelp" class="card" data-aos="fade-up" id="calcForm" onsubmit="return false;">
+<div class="calc-grid">
+<div><label for="power">القدرة (واط)</label><input aria-required="true" id="power" min="0" required="" type="number" value="100"/></div>
+<div><label for="hours">ساعات التشغيل يوميًا</label><input id="hours" min="0" required="" step="0.1" type="number" value="3"/></div>
+<div><label for="price">سعر الكيلوواط-ساعة</label><input id="price" min="0" step="0.001" type="number" value="0.10"/></div>
+<div><label for="days">أيام في الشهر</label><input id="days" min="1" type="number" value="30"/></div>
+</div>
+<div class="sr-only" id="calcHelp">حساب: kWh = (واط / 1000) × ساعات × أيام</div>
+<div style="margin-top:1rem;display:grid;gap:.7rem">
+<div aria-live="polite" class="result">
+<div>الاستهلاك الشهري: <strong id="kwh">0</strong> كيلوواط-ساعة</div>
+<div>التكلفة الشهرية: <strong id="cost">0</strong></div>
+<div aria-hidden="true" class="progress-wrap" style="margin-top:.6rem"><div class="progress" id="saveProgress" style="width:0%"></div></div>
+<div id="hint" style="margin-top:.6rem;color:#b8c9ee"></div>
+</div>
+<div style="display:flex;gap:.6rem;flex-wrap:wrap">
+<button class="btn btn-primary" id="calcBtn"><i class="fa-solid fa-equals"></i> احسب الآن</button>
+<button class="btn btn-ghost" id="suggestBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> اقتراح توفير 20%</button>
+<button class="btn btn-ghost" id="fillFromAI"><i class="fa-solid fa-robot"></i> ملء الحقول من التعرّف</button></div>
+</div>
+<div class="card" id="aiCamCard" style="margin-top:1rem">
+<div class="section-title" style="margin:0 0 .6rem 0"><i class="fa-solid fa-camera"></i> التعرّف على الجهاز بالذكاء الاصطناعي</div>
+<p class="muted" id="aiStatus" style="color:#b8c9ee;margin:.2rem 0 .6rem">التصوير يعمل داخل الصفحة. ستُملأ القدرة (واط) تلقائيًا بعد التعرف.</p>
+<div style="display:flex;gap:.6rem;flex-wrap:wrap">
+<button class="btn btn-primary" id="aiStart" type="button"><i class="fa-solid fa-video"></i> تشغيل الكاميرا</button>
+<button class="btn btn-ghost" disabled="" id="aiCapture" type="button"><i class="fa-solid fa-camera"></i> التقط صورة</button>
+<button class="btn btn-ghost" disabled="" id="aiStop" type="button"><i class="fa-solid fa-square"></i> إيقاف</button>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.6rem">
+<video id="aiVideo" muted="" playsinline="" style="width:100%;border:1px solid rgba(255,255,255,0.12);border-radius:10px"></video>
+<img alt="معاينة الجهاز" id="aiPreview" style="width:100%;border:1px solid rgba(255,255,255,0.12);border-radius:10px;object-fit:contain"/>
+</div>
+<canvas id="aiCanvas" style="display:none"></canvas>
+<div style="margin-top:.6rem;font-size:.95rem">
+<div>نتيجة AI: <strong id="aiLabel">—</strong></div>
+<div>تعرّف على الفئة: <strong id="aiCategory">—</strong></div>
+<div>قدرة مقترحة: <strong id="aiWatts">—</strong> واط</div>
+</div>
+</div>
+<div class="card" id="tempBlock" style="margin-top:.7rem; display:none">
+<div class="section-title" style="margin:.2rem 0 .4rem 0"><i class="fa-solid fa-temperature-half"></i> ضبط درجة الحرارة (للأجهزة الحرارية)</div>
+<div style="display:grid;gap:.6rem;grid-template-columns:1fr 1fr">
+<div>
+<label class="muted">نوع الجهاز الحراري</label>
+<div id="tempCategory" style="font-weight:900">—</div>
+</div>
+<div>
+<label for="tempSlider">درجة الحرارة: <span id="tempValue">—</span>°C</label>
+<input id="tempSlider" max="30" min="16" style="width:100%" type="range" value="24"/>
+<div id="tempHint" style="color:#b8c9ee;margin-top:.3rem;font-size:.9rem"></div>
+</div>
+</div>
+</div>
+</form>
+</section>
+<section aria-labelledby="compareTitle" id="compare" style="margin-top:1rem">
+<div class="section-title" id="compareTitle"><i class="fa-solid fa-scale-balanced"></i> مقارنة جهازين</div>
+<div class="card">
+<div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.6rem">
+<button class="btn btn-primary" id="saveDevice1"><i class="fa-solid fa-1"></i> احفظ كجهاز 1</button>
+<button class="btn btn-ghost" id="saveDevice2"><i class="fa-solid fa-2"></i> احفظ كجهاز 2</button>
+<button class="btn btn-ghost" id="clearDevices"><i class="fa-solid fa-eraser"></i> مسح المقارنة</button>
+</div>
+<div style="overflow:auto">
+<table id="compareTable" style="width:100%;border-collapse:separate;border-spacing:0 .5rem">
+<thead>
+<tr style="text-align:right;color:#dbe9ff">
+<th>الجهاز</th><th>القدرة (واط)</th><th>الساعات/يوم</th><th>kWh/شهر</th><th>التكلفة (ر.ع)</th><th>التوفير (%)</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- الاختبار -->
+<section aria-labelledby="quizTitle" class="quiz" id="quiz" style="margin-top:1rem">
+<div class="section-title" data-aos="fade-up" id="quizTitle"><i class="fa-solid fa-circle-question"></i> اختبار قصير حول ترشيد الطاقة</div>
+<div class="card" data-aos="fade-up" id="quizCard">
+<div id="quizArea"></div>
+<div style="margin-top:.6rem">
+<button class="btn btn-primary" id="submitQuiz"><i class="fa-solid fa-paper-plane"></i> أرسل الإجابات</button>
+<button class="btn btn-ghost" id="retryQuiz"><i class="fa-solid fa-rotate-right"></i> إعادة المحاولة</button>
+</div>
+</div>
+</section>
+<!-- التعهد -->
+<section aria-labelledby="pledgeTitle" class="pledge" data-aos="fade-up" id="pledge">
+<div class="section-title" id="pledgeTitle"><i class="fa-solid fa-handshake-angle"></i> التعهّد</div>
+<div class="card" style="flex:1">
+<label><input id="pledgeCheckbox" type="checkbox"/> أتعهد بتطبيق 3 نصائح هذا الأسبوع</label>
+<div style="margin-top:.6rem">
+<button class="btn btn-primary" id="savePledge"><i class="fa-solid fa-floppy-disk"></i> احفظ التعهّد</button>
+<div id="pledgeMsg" style="margin-top:.6rem;color:#b8c9ee"></div>
+</div>
+</div>
+</section>
+<!-- شهادة -->
+<section data-aos="zoom-in" style="margin-top:1.2rem">
+<button class="btn btn-primary" id="openCert"><i class="fa-solid fa-medal"></i> عرض شهادة بطل الترشيد</button>
+</section>
+</main>
+<!-- شريط النقاط السفلي -->
+<div class="topbar">
+<div class="wrap">
+<div class="score"><i class="fa-solid fa-star"></i> نقاطي: <span id="scoreValue">0</span></div>
+<div class="meter" title="تقدّم الإنجاز"><span id="progressBar"></span></div>
+<div class="badge" id="rankBadge"><i class="fa-solid fa-award"></i> رتبة: مبتدئ</div>
+</div>
+</div>
+<!-- نافذة الشهادة -->
+<div aria-labelledby="certTitle" aria-modal="true" class="modal" id="certModal" role="dialog">
+<div class="sheet">
+<div class="certificate" id="certArea">
+<img alt="وسام" src="https://cdn-icons-png.flaticon.com/512/2583/2583349.png" style="width:64px;height:64px;margin-top:.4rem"/>
+<h3 id="certTitle">شهادة بطل الترشيد</h3>
+<p>تُمنح هذه الشهادة إلى</p>
+<h2 contenteditable="true" style="margin:.4rem 0">اسم الطالب</h2>
+<p>تقديرًا لالتزامه بترشيد استهلاك الطاقة وإكمال الأنشطة التفاعلية.</p>
+<small>يمكنك تعديل الاسم ثم اختيار "طباعة" لحفظها PDF.</small>
+</div>
+<div class="print-hint"><i class="fa-solid fa-print"></i> نصيحة: استخدم طباعة المتصفح لحفظ الشهادة كـ PDF.</div>
+<div style="display:flex;gap:.6rem;justify-content:center;margin-top:.8rem">
+<button class="btn btn-primary" id="printCert"><i class="fa-solid fa-print"></i> طباعة</button>
+<button class="btn btn-ghost" id="closeCert"><i class="fa-solid fa-xmark"></i> إغلاق</button>
+</div>
+</div>
+</div>
+<footer class="container" role="contentinfo">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+<div>© حقوق النشر محفوظة — وفِّر طاقة 2025</div>
+<div class="pill"><i class="fa-solid fa-robot"></i> تصميم واجهة تكنولوجية تفاعلية</div>
+<div class="pill"><i class="fa-solid fa-user-check"></i> نسخة الذكاء الاصطناعي المطوّرة بإشراف هود السلامي</div></div>
+</footer>
+<audio id="ding" preload="auto" src="data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAA..."></audio>
+<!-- ملاحظة: لو كان الصوت المختصر غير مدعوم، سيتجاهله المتصفح بدون مشكلة. -->
+<script>
+    // ====== تفعيل AOS للحركات عند التمرير ======
+    AOS.init();
+
+    // ====== عناصر DOM ======
+    const toCalc = document.getElementById('toCalc');
+    const calcBtn = document.getElementById('calcBtn');
+    const suggestBtn = document.getElementById('suggestBtn');
+    const powerInput = document.getElementById('power');
+    const hoursInput = document.getElementById('hours');
+    const priceInput = document.getElementById('price');
+    const daysInput = document.getElementById('days');
+    const kwhEl = document.getElementById('kwh');
+    const costEl = document.getElementById('cost');
+    const saveProgress = document.getElementById('saveProgress');
+    const hint = document.getElementById('hint');
+    const tipsGrid = document.getElementById('tipsGrid');
+    const quizArea = document.getElementById('quizArea');
+    const submitQuiz = document.getElementById('submitQuiz');
+    const retryQuiz = document.getElementById('retryQuiz');
+    const pledgeCheckbox = document.getElementById('pledgeCheckbox');
+    const savePledge = document.getElementById('savePledge');
+    const pledgeMsg = document.getElementById('pledgeMsg');
+    const badgeContainer = document.getElementById('badgeContainer');
+
+    const scoreValue = document.getElementById('scoreValue');
+    const progressBar = document.getElementById('progressBar');
+    const rankBadge = document.getElementById('rankBadge');
+
+    const openCert = document.getElementById('openCert');
+    const certModal = document.getElementById('certModal');
+    const closeCert = document.getElementById('closeCert');
+    const printCert = document.getElementById('printCert');
+    const ding = document.getElementById('ding');
+
+    // ====== نظام نقاط بسيط (Gamification) ======
+    let score = 0;
+    function addPoints(n, withConfetti=true){
+      score += n;
+      if(score < 0) score = 0;
+      scoreValue.textContent = score;
+      const pct = Math.min(100, Math.round((score/100)*100));
+      progressBar.style.width = pct + '%';
+      updateRank();
+      if(withConfetti){
+        confetti({particleCount: 40, spread: 60, origin: { y: 0.8 }});
+        try{ ding && ding.play && ding.play(); }catch{}
+      }
+    }
+    function updateRank(){
+      let rank = 'مبتدئ';
+      if(score >= 80) rank = 'قائد الاستدامة';
+      else if(score >= 50) rank = 'متمرس';
+      rankBadge.innerHTML = '<i class="fa-solid fa-award"></i> رتبة: ' + rank;
+    }
+
+    // ====== تمرير ناعم ======
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+        document.querySelectorAll('nav a').forEach(x=>x.removeAttribute('aria-current'));
+        a.setAttribute('aria-current','true');
+      });
+    });
+    toCalc && toCalc.addEventListener('click', ()=>{ document.getElementById('calc').scrollIntoView({behavior:'smooth'}); });
+    const toAICam = document.getElementById('toAICam');
+    toAICam && toAICam.addEventListener('click', ()=>{ document.getElementById('aiCamCard').scrollIntoView({behavior:'smooth'}); });
+
+    // ====== حساب الاستهلاك ======
+    function round(v,d=2){return Number(Math.round(v * Math.pow(10,d)) / Math.pow(10,d)).toLocaleString('ar-EG')}
+    function calculate(){
+      const power = parseFloat(powerInput.value) || 0;
+      const hours = parseFloat(hoursInput.value) || 0;
+      const price = parseFloat(priceInput.value) || 0;
+      const days = parseFloat(daysInput.value) || 30;
+
+      const kwh = (power / 1000) * hours * days;
+      const cost = kwh * price;
+      kwhEl.textContent = round(kwh,3);
+      costEl.textContent = round(cost,3);
+
+      const reducedHours = hours * 0.8;
+      const kwhReduced = (power/1000) * reducedHours * days;
+      const costReduced = kwhReduced * price;
+      const saved = cost - costReduced;
+      const savedPercent = ( (hours - reducedHours) / hours ) * 100 || 0;
+
+      saveProgress.style.width = Math.min(100, savedPercent) + '%';
+      hint.textContent = `بتقليل ساعات التشغيل 20% (مثال) ستوفر تقريبًا ${round(saved,3)} (${round(savedPercent,1)}%).`;
+    }
+    calcBtn.addEventListener('click', ()=>{ calculate(); addPoints(5); });
+    suggestBtn.addEventListener('click', ()=>{
+      hoursInput.value = Math.max(0, (parseFloat(hoursInput.value)||0)*0.8).toFixed(1);
+      calculate();
+      addPoints(3);
+    });
+    [powerInput,hoursInput,priceInput,daysInput].forEach(inp=>{
+      inp.addEventListener('keydown', e=>{ if(e.key === 'Enter'){ calculate(); addPoints(2,false); } });
+    });
+
+    // ====== Accordion للنصائح + نقاط ======
+    document.querySelectorAll('.accordion button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        const content = btn.nextElementSibling;
+        if(content){ content.hidden = expanded; }
+        if(!expanded){ addPoints(1,false); }
+      });
+    });
+
+    // ====== Quiz ======
+    const quizData = [
+      {q:'ما هو أفضل نوع للمصابيح من حيث الترشيد؟', opts:['فلورسنت','LED','متوهجة'], a:1},
+      {q:'رفع درجة المكيّف بمقدار 1° يوفر تقريبًا؟', opts:['0-1%','6-8%','20%+'], a:1},
+      {q:'فصل الشواحن عند عدم الاستخدام يقلل الاستهلاك؟', opts:['نعم','لا'], a:0},
+      {q:'تشغيل الغسالة بحمولة كاملة يؤدي إلى؟', opts:['زيادة الاستهلاك','تقليل الدورات','لا يؤثر'], a:1},
+      {q:'هل تنظيف فلاتر المكيف يحسّن الكفاءة؟', opts:['نعم','لا'], a:0}
+    ];
+    function renderQuiz(){
+      quizArea.innerHTML = '';
+      quizData.forEach((item,i)=>{
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.innerHTML = `<strong>السؤال ${i+1}:</strong> <div style="margin-top:.4rem">${item.q}</div>`;
+        const list = document.createElement('div');
+        list.style.marginTop = '.6rem';
+        item.opts.forEach((opt,j)=>{
+          const id = `q${i}o${j}`;
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = `q${i}`;
+          radio.id = id;
+          radio.value = j;
+          const label = document.createElement('label');
+          label.htmlFor = id;
+          label.style.display = 'block';
+          label.style.marginTop = '.3rem';
+          label.textContent = item.opts[j];
+          list.appendChild(radio);
+          list.appendChild(label);
+        });
+        div.appendChild(list);
+        quizArea.appendChild(div);
+      });
+    }
+    renderQuiz();
+
+    submitQuiz.addEventListener('click', ()=>{
+      let scoreLocal = 0;
+      quizData.forEach((item,i)=>{
+        const sel = document.querySelector(`input[name=q${i}]:checked`);
+        const parent = document.querySelectorAll('.question')[i];
+        parent.style.border = '1px solid rgba(255,255,255,0.08)';
+        if(sel){
+          if(parseInt(sel.value,10) === item.a){ scoreLocal++; parent.style.border = '3px solid rgba(58,214,181,0.25)'; }
+          else { parent.style.border = '3px solid rgba(255,107,107,0.18)'; }
+        } else {
+          parent.style.border = '3px dashed rgba(255,255,255,0.12)';
+        }
+      });
+      const pct = Math.round((scoreLocal / quizData.length) * 100);
+      addPoints(pct >= 80 ? 20 : pct >= 50 ? 12 : 6);
+      alert(`نتيجتك: ${scoreLocal} من ${quizData.length} — ${pct}%`);
+      if(pct >= 80){
+        confetti({particleCount: 100, spread: 70, origin: {y: 0.8}});
+      }
+    });
+    retryQuiz.addEventListener('click', ()=>{ renderQuiz(); addPoints(2,false); });
+
+    // ====== التعهد ======
+    const PLEDGE_KEY = 'energy_pledge_v2';
+    function loadPledge(){
+      const stored = localStorage.getItem(PLEDGE_KEY);
+      if(stored){
+        pledgeCheckbox.checked = true;
+        pledgeMsg.textContent = 'شكرًا! تعهّدك محفوظ.';
+        showBadge();
+      } else {
+        pledgeMsg.textContent = '';
+      }
+    }
+    function showBadge(){
+      badgeContainer.innerHTML = '<div class="badge" role="status"><i class="fa-solid fa-crown"></i> بطل الترشيد</div>';
+    }
+    function removeBadge(){ badgeContainer.innerHTML = ''; }
+    savePledge.addEventListener('click', ()=>{
+      if(pledgeCheckbox.checked){
+        localStorage.setItem(PLEDGE_KEY, JSON.stringify({pledged:true, date: new Date().toISOString()}));
+        pledgeMsg.textContent = 'تم حفظ التعهّد — أحسنت!';
+        showBadge();
+        addPoints(15);
+        confetti({particleCount: 120, spread: 90, origin: {y: 0.7}});
+      } else {
+        localStorage.removeItem(PLEDGE_KEY);
+        pledgeMsg.textContent = 'ألغيت التعهّد.';
+        removeBadge();
+        addPoints(-10,false);
+      }
+    });
+
+    // ====== الشهادة ======
+    openCert.addEventListener('click', ()=>{
+      certModal.style.display = 'flex';
+    });
+    closeCert.addEventListener('click', ()=>{
+      certModal.style.display = 'none';
+    });
+    printCert.addEventListener('click', ()=>{
+      window.print();
+      addPoints(5,false);
+    });
+
+    // ====== عند التحميل ======
+    window.addEventListener('load', ()=>{
+      calculate();
+      loadPledge();
+    });
+  
+
+// ====== AI Camera + MobileNet Classification ======
+let aiStream = null;
+let mobilenetModel = null;
+
+const aiStart = document.getElementById('aiStart');
+const aiCapture = document.getElementById('aiCapture');
+const aiStop = document.getElementById('aiStop');
+const aiVideo = document.getElementById('aiVideo');
+const aiCanvas = document.getElementById('aiCanvas');
+const aiPreview = document.getElementById('aiPreview');
+const aiStatus = document.getElementById('aiStatus');
+const aiLabel = document.getElementById('aiLabel');
+const aiCategory = document.getElementById('aiCategory');
+const aiWatts = document.getElementById('aiWatts');
+
+// Map label keywords to categories and default watts
+const labelToCategoryMap = {
+  'tv':'تلفاز','monitor':'تلفاز','screen':'تلفاز',
+  'laptop':'حاسوب محمول','notebook':'حاسوب محمول',
+  'computer':'حاسوب مكتبي','keyboard':'حاسوب مكتبي','mouse':'حاسوب مكتبي',
+  'phone':'هاتف','cellphone':'هاتف','smartphone':'هاتف','charger':'شاحن',
+  'fan':'مروحة',
+  'air':'مكيّف هواء','conditioner':'مكيّف هواء','ac':'مكيّف هواء',
+  'refrigerator':'ثلاجة','fridge':'ثلاجة','freezer':'ثلاجة',
+  'microwave':'ميكروويف','oven':'فرن كهربائي','heater':'سخان كهربائي',
+  'iron':'مكواة','kettle':'غلاية ماء','printer':'طابعة'
+};
+const defaultWatts = {
+  'مكيّف هواء':1500,'ثلاجة':120,'فرن كهربائي':1800,'ميكروويف':1200,'تلفاز':100,
+  'حاسوب محمول':60,'حاسوب مكتبي':200,'هاتف':5,'شاحن':10,'مروحة':45,'غلاية ماء':2000,
+  'مكواة':1400,'طابعة':60,'سخان كهربائي':1500
+};
+
+function statusMsg(t){ if(aiStatus) aiStatus.textContent = t; }
+
+async function ensureModel(){
+  if(mobilenetModel) return mobilenetModel;
+  try{
+    statusMsg('جاري تحميل نموذج الذكاء الاصطناعي…');
+    mobilenetModel = await mobilenet.load();
+    statusMsg('تم التحميل. يمكنك التصوير الآن.');
+  }catch(e){
+    console.error(e);
+    statusMsg('تعذر تحميل نموذج الذكاء الاصطناعي. يمكنك إدخال القدرة يدويًا.');
+  }
+  return mobilenetModel;
+}
+
+async function startAICamera(){
+  try{
+    await ensureModel();
+    aiStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    aiVideo.srcObject = aiStream;
+    await aiVideo.play();
+    aiCapture.disabled = false;
+    aiStop.disabled = true; // enable after playing to avoid accidental stop
+    statusMsg('الكاميرا تعمل. وجّهها نحو الجهاز ثم التقط صورة.');
+    aiVideo.onplaying = ()=>{ aiStop.disabled = false; };
+  }catch(e){
+    console.error(e);
+    statusMsg('تعذر الوصول للكاميرا. تحقق من الأذونات.');
+  }
+}
+
+function stopAICamera(){
+  if(aiStream){
+    aiStream.getTracks().forEach(t=>t.stop());
+    aiStream = null;
+  }
+  if(aiVideo){ aiVideo.srcObject = null; }
+  aiCapture.disabled = true;
+  aiStop.disabled = true;
+  statusMsg('تم إيقاف الكاميرا.');
+}
+
+async function captureAndAnalyze(){
+  if(!mobilenetModel){
+    await ensureModel();
+  }
+  if(!aiVideo || aiVideo.readyState < 2){
+    statusMsg('الكاميرا غير جاهزة بعد.');
+    return;
+  }
+  statusMsg('جاري تحليل الصورة…');
+  const w = aiVideo.videoWidth, h = aiVideo.videoHeight;
+  aiCanvas.width = w; aiCanvas.height = h;
+  const ctx = aiCanvas.getContext('2d');
+  ctx.drawImage(aiVideo, 0, 0, w, h);
+  const dataUrl = aiCanvas.toDataURL('image/png');
+  aiPreview.src = dataUrl;
+
+  try{
+    // Create image element for classification
+    const img = new Image();
+    img.src = dataUrl;
+    await new Promise((res,rej)=>{ img.onload=()=>res(true); img.onerror=rej; });
+
+    const preds = await mobilenetModel.classify(img);
+    if(preds && preds[0]){
+      const label = (preds[0].className || '').toLowerCase();
+      aiLabel.textContent = label;
+
+      let cat = 'غير معروف';
+      for(const key in labelToCategoryMap){
+        if(label.includes(key)){ cat = labelToCategoryMap[key]; break; }
+      }
+      aiCategory.textContent = cat;
+
+      let wGuess = defaultWatts[cat] || '';
+      aiWatts.textContent = wGuess ? String(wGuess) : '—';
+
+      if(wGuess){
+        // Fill the power input and recalc
+        powerInput.value = String(wGuess);
+        calculate();
+        addPoints(7);
+        hint.textContent = (hint.textContent || '') + ' (قدرة الجهاز أضيفت تلقائيًا)';
+      } else {
+        hint.textContent = (hint.textContent || '') + ' (لم يتم التعرف بدقة — عدّل القدرة يدويًا)';
+      }
+      statusMsg('تم التعرف. يمكنك تعديل الحقول يدويًا إذا رغبت.');
+    } else {
+      statusMsg('لا توجد نتيجة واضحة. عدّل القدرة يدويًا.');
+    }
+  }catch(e){
+    console.error(e);
+    statusMsg('حدث خطأ أثناء التحليل. حاول مرة أخرى.');
+  }
+}
+
+aiStart && aiStart.addEventListener('click', startAICamera);
+aiStop && aiStop.addEventListener('click', stopAICamera);
+aiCapture && aiCapture.addEventListener('click', captureAndAnalyze);
+
+
+// ====== AI Plus: Temperature, LocalStorage, and Comparison ======
+const fillFromAI = document.getElementById('fillFromAI');
+const tempBlock = document.getElementById('tempBlock');
+const tempSlider = document.getElementById('tempSlider');
+const tempValue = document.getElementById('tempValue');
+const tempCategory = document.getElementById('tempCategory');
+const tempHint = document.getElementById('tempHint');
+
+const saveDevice1 = document.getElementById('saveDevice1');
+const saveDevice2 = document.getElementById('saveDevice2');
+const clearDevices = document.getElementById('clearDevices');
+const compareTable = document.getElementById('compareTable').querySelector('tbody');
+
+// LocalStorage keys
+const AI_LAST_KEY = 'ai_last_detection_v1';
+const DEV1_KEY = 'ai_compare_dev1';
+const DEV2_KEY = 'ai_compare_dev2';
+
+let aiCurrent = { label:'', category:'', watts:null, temperature:null };
+
+// Helper: temperature factor similar to real-world approximations
+function temperatureFactor(cat, t){
+  if(cat === 'مكيّف هواء'){
+    const delta = t - 24;
+    return delta < 0 ? 1 + Math.abs(delta) * 0.06 : 1 - Math.min(delta,4) * 0.04;
+  }
+  if(cat === 'ثلاجة'){
+    const delta = t - 4;
+    return delta < 0 ? 1 + Math.abs(delta) * 0.05 : 1 - Math.min(delta,4) * 0.03;
+  }
+  if(cat === 'سخان كهربائي'){
+    const delta = t - 50;
+    return 1 + (delta/5) * 0.08;
+  }
+  return 1;
+}
+
+function isThermal(cat){ return ['مكيّف هواء','ثلاجة','سخان كهربائي'].includes(cat); }
+function defaultTempFor(cat){
+  if(cat==='مكيّف هواء') return 24;
+  if(cat==='ثلاجة') return 4;
+  if(cat==='سخان كهربائي') return 50;
+  return null;
+}
+
+function showTempUIIfNeeded(cat){
+  if(isThermal(cat)){
+    tempBlock.style.display = '';
+    tempCategory.textContent = cat;
+    let t = aiCurrent.temperature ?? defaultTempFor(cat) ?? 24;
+    // Adjust slider range per category
+    if(cat==='ثلاجة'){ tempSlider.min = 0; tempSlider.max = 10; t = t ?? 4; }
+    else if(cat==='سخان كهربائي'){ tempSlider.min = 40; tempSlider.max = 70; t = t ?? 50; }
+    else { tempSlider.min = 16; tempSlider.max = 30; t = t ?? 24; }
+    tempSlider.value = t;
+    tempValue.textContent = t;
+    updateTempHint(cat, t);
+  } else {
+    tempBlock.style.display = 'none';
+  }
+}
+
+function updateTempHint(cat, t){
+  if(cat==='مكيّف هواء') tempHint.textContent = 'كل درجة أقل من 24°C ≈ +6% استهلاك، وكل درجة أعلى حتى 28°C ≈ −4%.';
+  else if(cat==='ثلاجة') tempHint.textContent = '4°C معيار مناسب. كل درجة أقل ≈ +5% استهلاك، أعلى حتى 8°C ≈ −3%.';
+  else if(cat==='سخان كهربائي') tempHint.textContent = 'كل +5 درجات للماء ≈ +8% استهلاك.';
+  else tempHint.textContent = '';
+}
+
+// Override calculate() to include temperature factor for thermal categories when present
+const _orig_calculate = calculate;
+calculate = function(){
+  _orig_calculate();
+  // Post-adjust UI hint if thermal
+  if(isThermal(aiCurrent.category) && aiCurrent.watts){
+    const t = Number(tempSlider.value || defaultTempFor(aiCurrent.category));
+    tempValue.textContent = t;
+    updateTempHint(aiCurrent.category, t);
+    // Recompute with factor and update displayed results
+    const powerBase = aiCurrent.watts;
+    const f = temperatureFactor(aiCurrent.category, t);
+    const powerAdj = Math.round(powerBase * f);
+    // Update power input and recalc once to propagate
+    if(!isNaN(powerAdj)){
+      powerInput.value = String(powerAdj);
+      _orig_calculate();
+    }
+  }
+};
+
+// Update temperature on slider change
+tempSlider && tempSlider.addEventListener('input', ()=>{
+  if(isThermal(aiCurrent.category)){
+    aiCurrent.temperature = Number(tempSlider.value);
+    localStorage.setItem(AI_LAST_KEY, JSON.stringify(aiCurrent));
+    calculate();
+  }
+});
+
+// Enhance AI capture handler to store last detection and show temp UI
+const _orig_captureAndAnalyze = captureAndAnalyze;
+captureAndAnalyze = async function(){
+  await _orig_captureAndAnalyze();
+  // Read label/category/watts from UI
+  const cat = aiCategory.textContent || '';
+  const wattsText = aiWatts.textContent || '';
+  const watts = parseFloat(wattsText) || null;
+  aiCurrent = {
+    label: aiLabel.textContent || '',
+    category: cat,
+    watts: watts,
+    temperature: defaultTempFor(cat)
+  };
+  localStorage.setItem(AI_LAST_KEY, JSON.stringify(aiCurrent));
+  showTempUIIfNeeded(cat);
+};
+
+// Fill from AI button
+fillFromAI && fillFromAI.addEventListener('click', ()=>{
+  const saved = localStorage.getItem(AI_LAST_KEY);
+  if(saved){
+    const data = JSON.parse(saved);
+    aiCurrent = data;
+    if(data.watts){ powerInput.value = String(data.watts); }
+    if(data.category){ showTempUIIfNeeded(data.category); }
+    if(typeof data.temperature === 'number'){ tempSlider.value = data.temperature; tempValue.textContent = data.temperature; }
+    calculate();
+    addPoints(4,false);
+    hint.textContent = (hint.textContent || '') + ' (تم الملء من آخر تعرّف)';
+  } else {
+    alert('لا توجد بيانات تعرّف محفوظة بعد.');
+  }
+});
+
+// ====== Comparison: Save as Device 1/2 and render table ======
+function getCurrentSnapshot(){
+  const power = parseFloat(powerInput.value)||0;
+  const hours = parseFloat(hoursInput.value)||0;
+  const price = parseFloat(priceInput.value)||0;
+  const days = parseFloat(daysInput.value)||30;
+  const kwh = (power/1000)*hours*days;
+  const cost = kwh*price;
+  return {
+    name: aiCurrent.category || (aiLabel.textContent || 'جهاز'),
+    watts: power,
+    hours: hours,
+    kwh: kwh,
+    cost: cost
+  };
+}
+
+function renderCompare(){
+  const d1 = JSON.parse(localStorage.getItem(DEV1_KEY) || 'null');
+  const d2 = JSON.parse(localStorage.getItem(DEV2_KEY) || 'null');
+  compareTable.innerHTML = '';
+  const rows = [];
+  
+  function addRow(d, label){
+    const tr = document.createElement('tr');
+    tr.style.background = 'rgba(255,255,255,0.05)';
+    tr.style.border = '1px solid rgba(255,255,255,0.08)';
+    tr.style.borderRadius = '12px';
+    tr.innerHTML = `<td><strong>${label}</strong> — ${d.name}</td>
+      <td>${Number(d.watts).toLocaleString('ar-EG')}</td>
+      <td>${Number(d.hours).toLocaleString('ar-EG')}</td>
+      <td>${Number(d.kwh.toFixed(2)).toLocaleString('ar-EG')}</td>
+      <td>${Number(d.cost.toFixed(3)).toLocaleString('ar-EG')}</td>
+      <td class="savePct">—</td>`;
+    compareTable.appendChild(tr);
+    return tr;
+  }
+  let tr1=null, tr2=null;
+  if(d1) tr1 = addRow(d1, 'الجهاز 1');
+  if(d2) tr2 = addRow(d2, 'الجهاز 2');
+  // Compute savings percentage if both present
+  if(d1 && d2){
+    const high = d1.cost >= d2.cost ? d1 : d2;
+    const low  = d1.cost >= d2.cost ? d2 : d1;
+    const pct = ((high.cost - low.cost) / high.cost) * 100;
+    // Color rows
+    const trs = compareTable.querySelectorAll('tr');
+    if(trs.length>=2){
+      const [r1, r2] = trs;
+      if(d1.cost >= d2.cost){ r1.style.boxShadow='0 0 0 2px rgba(255,107,107,0.25) inset'; r2.style.boxShadow='0 0 0 2px rgba(58,214,181,0.25) inset'; }
+      else { r2.style.boxShadow='0 0 0 2px rgba(255,107,107,0.25) inset'; r1.style.boxShadow='0 0 0 2px rgba(58,214,181,0.25) inset'; }
+      // Fill saving percentage cells
+      trs[0].querySelector('.savePct').textContent = Number(pct.toFixed(1)).toLocaleString('ar-EG');
+      trs[1].querySelector('.savePct').textContent = Number(pct.toFixed(1)).toLocaleString('ar-EG');
+    }
+  }
+}
+
+saveDevice1 && saveDevice1.addEventListener('click', ()=>{
+  const snap = getCurrentSnapshot();
+  localStorage.setItem(DEV1_KEY, JSON.stringify(snap));
+  renderCompare();
+  addPoints(4,false);
+});
+
+saveDevice2 && saveDevice2.addEventListener('click', ()=>{
+  const snap = getCurrentSnapshot();
+  localStorage.setItem(DEV2_KEY, JSON.stringify(snap));
+  renderCompare();
+  addPoints(4,false);
+});
+
+clearDevices && clearDevices.addEventListener('click', ()=>{
+  localStorage.removeItem(DEV1_KEY);
+  localStorage.removeItem(DEV2_KEY);
+  renderCompare();
+});
+
+window.addEventListener('load', ()=>{ renderCompare(); });
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("✅ Service Worker Registered"))
+      .catch(err => console.error("SW failed:", err));
+  });
+}
+</script>
+</body>
+</html>
